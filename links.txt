@@ -1,0 +1,13 @@
+https://github.com/aws-samples/sessions-with-aws-sam
+
+
+
+policies
+https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+
+cognito
+https://www.youtube.com/watch?v=fL-7UycSsfw
+https://www.youtube.com/watch?v=7kwqPoeEt1c
+
+
+curl -X POST -H "Content-Type: application/x-www-form-urlencoded" --data "grant_type=authorization_code&client_id=58r9gp57q2c69b7u8tl3tgql26&code=8e565769-af36-437a-87d9-f413d2b20d10&redirect_uri=https://www.google.com" https://mydomain.auth.us-east-1.amazoncognito.com/oauth2/token

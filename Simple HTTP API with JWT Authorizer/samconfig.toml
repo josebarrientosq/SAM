@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "HttpAPIstack"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1q2sopnpmel9w"
+s3_prefix = "HttpAPIstack"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
+parameter_overrides = "UserPoolId=\"us-east-1_t9R66OnmO\" Audience=\"58r9gp57q2c69b7u8tl3tgql26\""
