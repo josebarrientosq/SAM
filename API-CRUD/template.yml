@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Resources:
+
+  crudFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: app.crud
+      Runtime: nodejs12.x
+      CodeUri: .
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoDBTable
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref DynamoDBTable    
+      Events:
+        CreateAPI:
+          Type: Api
+          Properties:
+            Path: /book
+            Method: POST
+        OtherOperationsAPI:
+          Type: Api
+          Properties:
+            Path: /book/{itemId}
+            Method: ANY
+
+
+  DynamoDBTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: itemId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: itemId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+Outputs:
+
+  TestingAPI:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/book"
