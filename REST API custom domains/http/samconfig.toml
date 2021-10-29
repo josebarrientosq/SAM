@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "sam-http-domain"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1q2sopnpmel9w"
+s3_prefix = "sam-http-domain"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "DomainName=\"facturacionsinlimites.com\" ZoneId=\"none\" CertArn=\"none\""
+image_repositories = []

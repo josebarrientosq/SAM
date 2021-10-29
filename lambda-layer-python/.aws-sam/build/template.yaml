@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Sample lambda layer application
+Resources:
+  MyLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: ..\..\my_layer
+      CompatibleRuntimes:
+      - python3.9
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: HelloWorldFunction
+      Handler: hello.lambda_handler
+      Runtime: python3.9
+      Layers:
+      - Ref: MyLayer
+      Events:
+        CrearAPI:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: GET
+  MyLibLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: MyLibLayer
+      CompatibleRuntimes:
+      - python3.9
+    Metadata:
+      BuildMethod: python3.9
+  RequestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: RequestFunction
+      Handler: request.lambda_handler
+      Runtime: python3.9
+      Layers:
+      - Ref: MyLibLayer
+      Events:
+        GETAPI:
+          Type: Api
+          Properties:
+            Path: /request
+            Method: GET

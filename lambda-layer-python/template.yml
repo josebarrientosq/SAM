@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Sample lambda layer application
+
+
+Resources:
+  ######################################################################################################################
+  # Simple layer with custom code
+  ######################################################################################################################
+  MyLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: my_layer
+      CompatibleRuntimes:
+        - python3.9
+ 
+  ######################################################################################################################
+  # Lambda function using MyLayer
+  ######################################################################################################################
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: app/
+      Handler: hello.lambda_handler
+      Runtime: python3.9
+      Layers:
+        - !Ref MyLayer
+      Events:
+        CrearAPI:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: GET
+
+  ######################################################################################################################
+  # Layer with build capabilities, automatically execute pip install -r requirements.txt -t installing libraries
+  ######################################################################################################################
+  MyLibLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: my_lib_layer
+      CompatibleRuntimes:
+        - python3.9
+    Metadata:
+      BuildMethod: python3.9 # this is where magic happen, sam build command will read requirements.txt file and download libraries (need python 3.9)
+
+
+  ######################################################################################################################
+  # Lambda function using MyLayer
+  ######################################################################################################################
+  RequestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: app/
+      Handler: request.lambda_handler
+      Runtime: python3.9
+      Layers:
+        - !Ref MyLibLayer
+      Events:
+        GETAPI:
+          Type: Api
+          Properties:
+            Path: /request
+            Method: GET
